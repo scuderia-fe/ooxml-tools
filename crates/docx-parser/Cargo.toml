@@ -1,0 +1,31 @@
+[package]
+name = "docx-parser"
+version = "0.1.0"
+authors = ["Alessio Marchi <65831826+kettei-sproutty@users.noreply.github.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "docx-parser-bin"
+path = "src/main.rs"
+
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+anyhow = { workspace = true }
+wasm-bindgen = "0.2.84"
+console_error_panic_hook = { version = "0.1.7", optional = true }
+zip = "0.6.6"
+serde = { version = "1.0.195", features = ["derive"] }
+quick-xml = "0.31.0"
+serde_json = "1.0.111"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.34"
+
+[profile.release]
+opt-level = "s"

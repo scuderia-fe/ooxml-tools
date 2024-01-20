@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "rust-lang.rust-analyzer",
+    "astro-build.astro-vscode"
+  ]
+}

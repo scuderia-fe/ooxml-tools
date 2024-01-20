@@ -1,0 +1,38 @@
+{
+  "name": "ooxml-tools",
+  "version": "0.0.0",
+  "license": "MIT",
+  "workspaces": ["docs"],
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "build": "turbo run build",
+    "dev": "turbo run dev"
+  },
+  "lint-staged": {
+    "*.toml": [
+      "taplo format"
+    ],
+    "*.rs": [
+      "cargo fmt --"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@taplo/cli": "^0.5.2",
+    "@types/bun": "latest",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.4",
+    "turbo": "^1.11.3"
+  },
+  "optionalDependencies": {
+    "rust": "nightly"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "packageManager": "bun@1.0.23"
+}
