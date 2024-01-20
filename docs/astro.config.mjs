@@ -3,7 +3,8 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-  base: '/ooxml-tools/',
+  base: '/ooxml-tools',
+  site: "https://scuderia-fe.github.io",
 	integrations: [
 		starlight({
 			title: 'OOXML Tools',
