@@ -103,8 +103,8 @@ pub struct Image;
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Docx {
-  /// The styles defined in the document
-  pub styles: Vec<Style>,
+  /// The attributes defined in the document
+  pub attributes: Vec<Style>,
   /// The paragraphs in the document
   pub paragraphs: Vec<Paragraph>,
   /// The footnotes in the document
@@ -116,7 +116,7 @@ pub struct Docx {
 impl Default for Docx {
   fn default() -> Self {
     Docx {
-      styles: Vec::new(),
+      attributes: Vec::new(),
       paragraphs: Vec::new(),
       foot_notes: Vec::new(),
       images: Vec::new(),
@@ -151,31 +151,47 @@ impl Docx {
           b"w:p" => {
             let mut paragraph = Paragraph::default();
             paragraph.style =
-              attributes::analyze_attributes(element.attributes());
+              attributes::analyze_attributes(element.html_attributes());
             docx.paragraphs.push(paragraph)
           }
           b"w:pPr" => {
             let paragraph = docx.paragraphs.last_mut().unwrap();
             paragraph.style.push_str(
-              attributes::analyze_attributes(element.attributes()).as_str(),
+              attributes::analyze_attributes(element.html_attributes())
+                .as_str(),
             );
           }
           b"w:rPr" => {
             let paragraph = docx.paragraphs.last_mut().unwrap();
             paragraph.style.push_str(
-              attributes::analyze_attributes(element.attributes()).as_str(),
+              attributes::analyze_attributes(element.html_attributes())
+                .as_str(),
             );
           }
           b"w:r" => {
             let paragraph = docx.paragraphs.last_mut().unwrap();
             paragraph.style.push_str(
-              attributes::analyze_attributes(element.attributes()).as_str(),
+              attributes::analyze_attributes(element.html_attributes())
+                .as_str(),
+            );
+          }
+          b"w:t" => {
+            let paragraph = docx.paragraphs.last_mut().unwrap();
+            paragraph.style.push_str(
+              attributes::analyze_attributes(element.html_attributes())
+                .as_str(),
             );
           }
           _ => {
             // println!("START {:?}", element.name())
           }
         },
+        Ok(Event::Empty(element)) => {
+          let paragraph = docx.paragraphs.last_mut().unwrap();
+          paragraph.style.push_str(
+            attributes::analyze_attributes(element.html_attributes()).as_str(),
+          );
+        }
         // Ok(Event::End(element)) => println!("END {:?}", element.name()),
         Ok(Event::Text(text)) => {
           if let Some(last_paragraph) = docx.paragraphs.last_mut() {
